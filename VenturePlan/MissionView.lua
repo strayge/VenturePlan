@@ -169,6 +169,7 @@ local function Predictor_OnEnter(self)
 	GameTooltip:AddLine('"Do not believe its lies! Balance druids are not emergency rations."', 1, 0.835, 0.09, 1)
 	GameTooltip:Show()
 end
+
 local function Predictor_OnClick(self)
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
 	local sim, ms = GetSim()
@@ -190,6 +191,35 @@ local function Predictor_OnClick(self)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine("|TInterface/EncounterJournal/UI-EJ-WarningTextIcon:0|t Not all abilities have been taken into account.", 0.9,0.25,0.15,1)
 	end
+
+    local hp2, hp3, hp4, hp0, hp1
+    if sim.board[2] then
+        hp2 = ("%3.0f%%"):format(sim.board[2].curHP/sim.board[2].maxHP*100)
+    else
+        hp2 = "----"
+    end
+    if sim.board[3] then
+        hp3 = ("%3.0f%%"):format(sim.board[3].curHP/sim.board[3].maxHP*100)
+    else
+        hp3 = "----"
+    end
+    if sim.board[4] then
+        hp4 = ("%3.0f%%"):format(sim.board[4].curHP/sim.board[4].maxHP*100)
+    else
+        hp4 = "----"
+    end
+    if sim.board[0] then
+        hp0 = ("%3.0f%%"):format(sim.board[0].curHP/sim.board[0].maxHP*100)
+    else
+        hp0 = "----"
+    end
+    if sim.board[1] then
+        hp1 = ("%3.0f%%"):format(sim.board[1].curHP/sim.board[1].maxHP*100)
+    else
+        hp1 = "----"
+    end
+    GameTooltip:AddLine(("   %s  %s  %s\n        %s  %s"):format(hp2, hp3, hp4, hp0, hp1))
+
 	GameTooltip:Show()
 end
 local function Predictor_OnLeave(self)
