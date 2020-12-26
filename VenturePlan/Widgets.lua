@@ -548,11 +548,11 @@ function Factory.MissionList(parent)
 	scrollChild:SetSize(902,missionList:GetHeight())
 	missionList:SetScrollChild(scrollChild)
 	missionList.Missions = setmetatable({}, {__index=MissionList_SpawnMissionButton})
-	for i=1,6 do
-		local cf = CreateObject("MissionButton", scrollChild)
-		missionList.Missions[i] = cf
-		cf:SetPoint("TOPLEFT", 292*(((i-1)%3)+1)-284, math.floor((i-1)/3) *- 195)
-	end
+	--for i=1,6 do
+	--	local cf = CreateObject("MissionButton", scrollChild)
+	--	missionList.Missions[i] = cf
+	--	cf:SetPoint("TOPLEFT", 292*(((i-1)%3)+1)-284, math.floor((i-1)/3) *- 195)
+	--end
 	
 	return missionList
 end
