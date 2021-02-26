@@ -193,6 +193,19 @@ local function ConfigureMission(me, mi, isAvailable, haveSpareCompanions, availA
 	ms.animaCost:SetText(BreakUpLargeNumbers(cost))
 	ms.duration:SetText(mi.duration)
 	ms.statLine:SetWidth(ms.duration:GetRight() - ms.statLine:GetLeft())
+    
+    
+    local extraXP = 0
+    for i=1,#mi.rewards do
+        if mi.rewards[i].followerXP then
+            extraXP = mi.rewards[i].followerXP
+        end
+    end
+    local totalXP = ms.baseXPReward + extraXP
+    
+    ms.perhourXP:SetText(math.floor(totalXP / (mi.durationSeconds / 3600)))
+    ms.totalXP:SetText(math.floor(totalXP))
+    
 	ms.TagText:SetText(tag)
 	
 	me:Show()

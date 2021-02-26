@@ -334,7 +334,9 @@ local RewardButton_SetReward do
 	function RewardButton_SetReward(self, rew, isOvermax, pw)
 		if rew == "xp" then
 			baseXPReward.followerXP = isOvermax
-			return RewardButton_SetReward(self, baseXPReward)
+			local res = RewardButton_SetReward(self, baseXPReward)
+            self:SetShown(false)
+            return res
 		end
 		self:SetShown(not not rew)
 		if not rew then
@@ -1155,7 +1157,7 @@ function Factory.MissionList(parent)
 			local scrollChild = self:GetScrollChild()
 			local _, _, _, _, y = scrollChild:GetPoint()
 			local snap = math.min(math.max(0, (se.scrollSnap or 0) - d), math.floor(((se.numMissions or 0)-1)/3)-1)
-			local dy = snap == 0 and 0 or (195*snap-30)
+			local dy = snap == 0 and 0 or (90*snap-30)
 			if se.scrollEnd ~= dy then
 				local ct = GetTime()
 				se.scrollSnap, se.scrollStart, se.scrollEnd, se.scrollTimeStart, se.scrollTimeEnd = snap, y, dy, ct, ct + 0.20
@@ -1186,10 +1188,10 @@ function Factory.MissionList(parent)
 	scrollChild:SetSize(902,missionList:GetHeight())
 	missionList:SetScrollChild(scrollChild)
 	s.Missions = setmetatable({}, {__index=MissionList_SpawnMissionButton, __metatable=false})
-	for i=1,6 do
+	for i=1,30 do
 		local cf = CreateObject("MissionButton", scrollChild)
 		s.Missions[i] = cf
-		cf:SetPoint("TOPLEFT", 292*(((i-1)%3)+1)-284, math.floor((i-1)/3) *- 195)
+		cf:SetPoint("TOPLEFT", 10, (i-1) *- 45)
 	end
 
 	return s
@@ -1197,7 +1199,7 @@ end
 function Factory.MissionButton(parent)
 	local cf, t = CreateFrame("Button", nil, parent)
 	local s = CreateObject("Shadow", cf)
-	cf:SetSize(290, 190)
+	cf:SetSize(860, 60)
 	cf:SetScript("OnClick", MissionButton_OnClick)
 	t = cf:CreateTexture(nil, "BACKGROUND", nil, -2)
 	t:SetAtlas("UI-Frame-"..CovenKit.."-CardParchmentWider")
@@ -1212,8 +1214,10 @@ function Factory.MissionButton(parent)
 	Mirror(t, true)
 	t, s.Veil = cf:CreateFontString(nil, "BACKGROUND", "GameFontHighlightLarge"), t
 	t:SetText("Beast Beneath the Hydrant")
-	t:SetPoint("TOP", 0, -54)
-	t:SetWidth(276)
+	t:SetPoint("LEFT", 0, 0)
+    -- name
+    t:Hide()
+	t:SetWidth(376)
 	t:SetTextColor(0.97, 0.94, 0.70)
 	t, s.Name = cf:CreateTexture(nil, "BACKGROUND", nil, 2), t
 	t:SetAtlas("Campaign-QuestLog-LoreDivider")
@@ -1222,35 +1226,40 @@ function Factory.MissionButton(parent)
 	t:SetWidth(286)
 	t:SetPoint("TOP", s.Name, 0, 6)
 	t:SetPoint("BOTTOM", s.Name, "BOTTOM", 0, -3)
+    t:Hide()  -- weird line
 	t = cf:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	t:SetWidth(262)
 	t:SetPoint("TOP", s.Name, "BOTTOM", 0, -26)
 	t:SetText("Nyar!")
+    -- description
+    t:Hide()
 	t, s.Description = CreateObject("CommonHoverTooltip", CreateFrame("Button", nil, cf)), t
 	t:SetNormalFontObject(GameFontBlack)
-	t:SetSize(40, 16)
-	t:SetPoint("BOTTOMLEFT", cf, 14, 13)
+	t:SetSize(50, 16)
+    -- expire timer
+	t:SetPoint("LEFT", cf, 74, -12)
 	t:SetText("Expired")
-	t:GetFontString():SetJustifyH("LEFT")
+	--t:GetFontString():SetJustifyH("LEFT")
 	t:SetMouseClickEnabled(false)
 	s.ExpireTime = t
 	CreateObject("CountdownText", cf, t)
 
 	t = CreateFrame("Frame", nil, cf)
-	t:SetPoint("TOP", 0, -4)
-	t:SetSize(104, 48)
+    -- reward
+	t:SetPoint("LEFT", 485, -14)
+	t:SetSize(96, 48)
 	s.Rewards = {Container=t, SetRewards=RewardBlock_SetRewards}
 	for j=1,3 do
 		local rew = CreateObject("RewardFrame", t)
-		rew:SetPoint("LEFT", 52*j-52, 0)
+		rew:SetPoint("LEFT", 48*j-48, 0)
 		s.Rewards[j] = rew
 	end
 	t = CreateObject("AchievementRewardIcon", cf)
-	t:SetPoint("RIGHT", cf, "TOPRIGHT", -20, -40)
+	t:SetPoint("RIGHT", cf, "LEFT", -20, -40)
 	s.AchievementReward = t
 
 	t = CreateFrame("Frame", nil, cf)
-	t:SetPoint("TOP", s.Name, "BOTTOM", 0, -4)
+	t:SetPoint("LEFT", 140, -12)
 	t:SetSize(224, 20)
 	local a, b = cf:CreateTexture(nil, "BACKGROUND", nil, 2)
 	a:SetAtlas("ui_adv_health", true)
@@ -1260,13 +1269,13 @@ function Factory.MissionButton(parent)
 	b:SetText("2,424")
 	a, s.enemyHP = cf:CreateTexture(nil, "BACKGROUND", nil, 2), b
 	a:SetAtlas("ui_adv_atk", true)
-	a:SetPoint("LEFT", b, "RIGHT", 0, 0)
+	a:SetPoint("LEFT", t, "LEFT", 60, 0)
 	b = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	b:SetPoint("LEFT", a, "RIGHT", -2, 0)
 	b:SetText("2,424")
 	a, s.enemyATK = cf:CreateTexture(nil, "BACKGROUND", nil, 2), b
 	a:SetAtlas("animachannel-bar-" .. CovenKit .. "-gem", true)
-	a:SetPoint("LEFT", b, "RIGHT", 8, 0)
+	a:SetPoint("LEFT", t, "LEFT", 125, 0)
 	b = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	b:SetPoint("LEFT", a, "RIGHT", -2, 0)
 	b:SetText("42")
@@ -1274,25 +1283,45 @@ function Factory.MissionButton(parent)
 	a:SetTexture("Interface/Common/Mini-hourglass")
 	a:SetSize(14, 14)
 	a:SetVertexColor(0.5, 0.75, 1)
-	a:SetPoint("LEFT", b, "RIGHT", 8, 0)
+	a:SetPoint("LEFT", t, "LEFT", 175, 0)
 	b = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
 	b:SetPoint("LEFT", a, "RIGHT", 2, 0)
 	s.duration = b
 	s.statLine = t
-	
+    
+    xt = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
+	xt:SetPoint("LEFT", t, "LEFT", 275, 8)
+    xt:SetTextColor(0.97, 0.94, 0.70)
+    xt:SetText("XP")
+    
+    x = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
+	x:SetPoint("LEFT", t, "LEFT", 270, -6)
+    s.totalXP = x
+
+    xt = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
+	xt:SetPoint("LEFT", t, "LEFT", 330, 8)
+    xt:SetTextColor(0.97, 0.94, 0.70)
+    xt:SetText("XP/h")
+    
+    x = t:CreateFontString(nil, "OVERLAY", "GameFontBlack")
+	x:SetPoint("LEFT", t, "LEFT", 330, -6)
+    s.perhourXP = x
+
+    
 	t = CreateObject("ProgressBar", cf)
-	t:SetWidth(cf:GetWidth()-50)
-	t:SetPoint("BOTTOM", 0, 16)
+	t:SetWidth(175)
+	t:SetPoint("RIGHT", -35, -12)
 	t.Fill:SetAtlas("UI-Frame-Bar-Fill-Blue")
 	s.ProgressBar = t
 	local gb = CreateFrame("Button", nil, cf, "UIPanelButtonTemplate")
-	gb:SetPoint("BOTTOM", 20, 12)
+    -- buttons
+	gb:SetPoint("RIGHT", -30, 0)
 	gb:SetText("Buttons!")
 	gb:SetSize(165, 21)
 	gb:SetScript("OnClick", MissionButton_OnViewClick)
 	s.ViewButton = gb
 	t = CreateFrame("Button", nil, cf, "UIPanelButtonTemplate")
-	t:SetPoint("RIGHT", s.ViewButton, "LEFT", -8)
+	t:SetPoint("RIGHT", s.ViewButton, "LEFT", 0)
 	t:SetSize(24,21)
 	t:SetText("|TInterface/EncounterJournal/UI-EJ-HeroicTextIcon:0|t")
 	t:SetPushedTextOffset(-1, -1)
@@ -1306,16 +1335,17 @@ function Factory.MissionButton(parent)
 	t:SetScript("OnClick", TentativeGroupClear_OnClick)
 	t:SetPushedTextOffset(-1, -1)
 	s.TentativeClear = t
-	t = cf:CreateFontString(nil, "BACKGROUND", "GameFontNormalSmall")
+	t = cf:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
 	t:SetTextColor(0.97, 0.94, 0.70)
-	t:SetPoint("TOPLEFT", 16, -38)
+    -- level
+	t:SetPoint("LEFT", 30, -12)
 	s.TagText = t
 	
 	return cf
 end
 function Factory.RewardFrame(parent)
 	local f, t = CreateObject("CommonHoverTooltip", CreateFrame("Button", nil, parent))
-	f:SetSize(48, 48)
+	f:SetSize(40, 40)
 	t = f:CreateTexture(nil, "ARTWORK")
 	t:SetAllPoints()
 	t:SetTexture("Interface/Icons/Temp")
