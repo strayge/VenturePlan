@@ -269,12 +269,41 @@ local function UpdateMissions()
 			local rs = 0
 			for i=1, m.rewards and #m.rewards or 0 do
 				i = m.rewards[i]
-				if haveRookies and i.followerXP and rs < 1 then
-					rs = 1
-				elseif i.currencyID == 1828 and rs < 2 then
-					rs = 2
-				end
+                -- ash
+                if i.currencyID == 1828 and rs < 16 then
+					rs = 16
+				-- exp
+                elseif haveRookies and i.followerXP and rs < 15 then
+					rs = 15
+                -- anima (x5 items)
+                elseif i.itemID == 184385 or i.itemID == 181551 or i.itemID == 181544 or i.itemID == 184146 or i.itemID == 184151 or i.itemID == 184148 or i.itemID == 184152 or i.itemID == 184388 or i.itemID == 184389 or i.itemID == 184386 or i.itemID == 181540 or i.itemID == 184387 or i.itemID == 184307 or i.itemID == 181644 or i.itemID == 181643 or i.itemID == 181642 or i.itemID == 184306  or i.itemID == 184769 or i.itemID == 181744 or i.itemID == 184771 or i.itemID == 184360 or i.itemID == 184770 or i.itemID == 184293 and rs < 14 then
+                    rs = 14
+                -- runes
+                elseif i.itemID == 181468 and rs < 13 then
+                    rs = 13
+                -- gold
+                elseif i.currencyID == 0 and rs < 12 then
+                    rs = 12
+                -- blue meat / fish / other resources
+                elseif i.itemID == 184637 or i.itemID == 184638 or i.itemID == 184644 or i.itemID == 184645 or i.itemID == 184646 or i.itemID == 184647 or i.itemID == 184648 and rs < 11 then
+                    rs = 11
+                -- reputation (x250)
+                elseif i.currencyID == 1804 or i.currencyID == 1805 or i.currencyID == 1806 or i.currencyID == 1807 and rs < 9 then
+                    rs = 9
+                -- green resources
+                elseif i.itemID == 184630 or i.itemID == 184631 or i.itemID == 184632 or i.itemID == 184633 or i.itemID == 184634 or i.itemID == 184635 or i.itemID == 184636 or i.itemID == 184639 or i.itemID == 184640 or i.itemID == 184641 or i.itemID == 184642 or i.itemID == 184643 and rs < 8 then
+                    rs = 8
+                -- pet battle tokens
+                elseif i.itemID == 163036 and rs < 7 then
+                    rs = 7
+                end
+                --if rs == 0 then
+                --    print(i.itemID, i.currencyID)
+                --end
 			end
+            if rs == 0 then
+                rs = 10
+            end
 			m.sortGroup = rs
 		end
 		m.hasTentativeGroup = U.MissionHasTentativeGroup(mid)
