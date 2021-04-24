@@ -270,13 +270,16 @@ local function UpdateMissions()
 			for i=1, m.rewards and #m.rewards or 0 do
 				i = m.rewards[i]
                 -- ash
-                if i.currencyID == 1828 and rs < 16 then
-					rs = 16
+                if i.currencyID == 1828 and rs < 17 then
+					rs = 17
 				-- exp
-                elseif haveRookies and i.followerXP and rs < 15 then
-					rs = 15
+                elseif haveRookies and i.followerXP and rs < 16 then
+					rs = 16
                 -- anima (x5 items)
-                elseif i.itemID == 184385 or i.itemID == 181551 or i.itemID == 181544 or i.itemID == 184146 or i.itemID == 184151 or i.itemID == 184148 or i.itemID == 184152 or i.itemID == 184388 or i.itemID == 184389 or i.itemID == 184386 or i.itemID == 181540 or i.itemID == 184387 or i.itemID == 184307 or i.itemID == 181644 or i.itemID == 181643 or i.itemID == 181642 or i.itemID == 184306  or i.itemID == 184769 or i.itemID == 181744 or i.itemID == 184771 or i.itemID == 184360 or i.itemID == 184770 or i.itemID == 184293 and rs < 14 then
+                elseif i.itemID == 184385 or i.itemID == 181551 or i.itemID == 181544 or i.itemID == 184146 or i.itemID == 184151 or i.itemID == 184148 or i.itemID == 184152 or i.itemID == 184388 or i.itemID == 184389 or i.itemID == 184386 or i.itemID == 181540 or i.itemID == 184387 or i.itemID == 184307 or i.itemID == 181644 or i.itemID == 181643 or i.itemID == 181642 or i.itemID == 184306  or i.itemID == 184769 or i.itemID == 181744 or i.itemID == 184771 or i.itemID == 184360 or i.itemID == 184770 or i.itemID == 184293 and rs < 15 then
+                    rs = 15
+                -- anima (x35 items)
+                elseif i.itemID == 181547 or i.itemID == 181550 or i.itemID == 184150 or i.itemID == 184147 or i.itemID == 181546 or i.itemID == 181548 or i.itemID == 181545 or i.itemID == 184777 or i.itemID == 184773  or i.itemID == 184772 or i.itemID == 184774 or i.itemID == 184305 or i.itemID == 181645 or i.itemID == 181647 or i.itemID == 184776 or i.itemID == 184775 or i.itemID == 181649 or i.itemID == 184765 or i.itemID == 184362 or i.itemID == 184767 or i.itemID == 181368 or i.itemID == 184766 or i.itemID == 181377 or i.itemID == 184768 or i.itemID == 184363 or i.itemID == 181745 or i.itemID == 184294 or i.itemID == 184381 or i.itemID == 184384 or i.itemID == 181477 or i.itemID == 181541 or i.itemID == 184519 or i.itemID == 184378 or i.itemID == 184383 or i.itemID == 184382 or i.itemID == 181479 and rs < 14 then
                     rs = 14
                 -- runes
                 elseif i.itemID == 181468 and rs < 13 then
