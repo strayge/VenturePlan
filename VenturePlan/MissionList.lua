@@ -156,7 +156,8 @@ local function cmpMissionInfo(a,b)
 	end
 	ac, bc = a.hasTentativeGroup, b.hasTentativeGroup
 	if ac ~= bc then
-		return bc
+		--return bc
+        return ac
 	end
 	ac, bc = a.sortGroup, b.sortGroup
 	if ac ~= bc then
@@ -177,7 +178,7 @@ local function pushMissionSet(ni, missions, skip, ...)
 	table.sort(missions, cmpMissionInfo)
 	for i=1, #missions do
 		local mid = missions[i].missionID
-		for j=0, skip and #skip or 0, -1 do
+		for j=skip and #skip or 0, 0, -1 do
 			if j == 0 then
 				ni = ni + 1, ConfigureMission(MissionList.Missions[ni], missions[i], ...)
 			elseif skip[j].missionID == mid then
@@ -258,9 +259,11 @@ local function UpdateMissions()
 	
 	local ni, anima = 1, C_CurrencyInfo.GetCurrencyInfo(1813)
 	anima = (anima and anima.quantity or 0)
-    ni = pushMissionSet(ni, cMissions, inProgressMissions, haveUnassignedRookies, anima)
+    
+    ni = pushMissionSet(ni, cMissions, nil, haveUnassignedRookies, anima)
 	ni = pushMissionSet(ni, missions, nil, haveUnassignedRookies, anima)
-	ni = pushMissionSet(ni, inProgressMissions, nil, haveUnassignedRookies, anima)
+    ni = pushMissionSet(ni, inProgressMissions, cMissions, haveUnassignedRookies, anima)
+	
 	MissionList.numMissions = ni-1
 	for i=ni, #MissionList.Missions do
 		MissionList.Missions[i]:Hide()
