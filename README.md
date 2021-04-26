@@ -12,16 +12,12 @@ Please note that the included Cursed Adventurer's Guide is cursed, and may not a
 
 ### Modification
 
-1. Changed mission list to default
-
-Actually you can additionally mod it by WeakAuras.
-
-On screenshot I use [this one](https://wago.io/2c5uE2huK) for expiring timer.
+- compact mission list
 
 ![mission list](./images/list.png)
 
-2. Shows remaining health after fight simulation
+- sort rewards
 
-Beware: sometimes different simulations shows slightly different health (probably due to random targeting).
+- completed missions at top
 
-![mission page](./images/mission.png)
+- start missions with left mouse button (assign with right)
