@@ -705,12 +705,16 @@ local function MissionStart_OnClick(_self, button)
 	local g, hc, zh = MissionView_GetGroup()
 	if not hc then
 		return
-	elseif button == "RightButton" and not zh then
-		U.StartMissionWithDelay(mid, g)
-	else
-		U.StoreMissionGroup(mid, g, true)
-		PlaySound(39514)
-	end
+    end
+    if zh then
+        return
+    end
+    if button == "RightButton" then
+        U.StoreMissionGroup(mid, g, true)
+        PlaySound(39514)
+    else
+        U.StartMissionWithDelay(mid, g)
+    end
 	CovenantMissionFrame:CloseMission()
 end
 local function MissionStart_OnEnter(self)
@@ -722,7 +726,9 @@ local function MissionStart_OnEnter(self)
 		if select(3, MissionView_GetGroup()) then
 			GameTooltip:AddLine("|n|cffff8000" .. COVENANT_MISSIONS_COMPANIONS_MISSING_HEALTH, 1, 0.5, 0)
 		else
-			GameTooltip:AddLine("|n|TInterface/TUTORIALFRAME/UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:330:410|t " .. L"Start the adventure", 0.5, 0.8, 1)
+        
+			GameTooltip:AddLine("|n|TInterface/TUTORIALFRAME/UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:225:307|t " .. L"Start the adventure", 0.5, 0.8, 1)
+            GameTooltip:AddLine("|n|TInterface/TUTORIALFRAME/UI-TUTORIAL-FRAME:14:12:0:-1:512:512:10:70:330:385|t " .. L"Assign Tentative Party", 0.5, 0.8, 1)
 		end
 		GameTooltip:Show()
 	elseif self.tooltip then
@@ -841,7 +847,7 @@ function EV:I_ADVENTURES_UI_LOADED()
 	MP.StartMissionButton:SetScript("OnClick", MissionStart_OnClick)
 	MP.StartMissionButton:SetScript("OnEnter", MissionStart_OnEnter)
 	MP.StartMissionButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-	MP.StartMissionButton:SetText(L"Assign Party")
+	MP.StartMissionButton:SetText(L"Start the adventure")
 	CovenantMissionFrame.GetSystemSpecificStartMissionFailureMessage = function() end
 	local s = CovenantMissionFrame.MissionTab.MissionPage.Stage
 	s.Title:SetPoint("LEFT", s.Header, "LEFT", 100, 9)
